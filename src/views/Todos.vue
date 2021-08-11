@@ -1,8 +1,11 @@
 <template>
-  <div id="app">
-    <h1>Todo List</h1>
+  <div>
+    <router-link to="/">Home</router-link>
     <hr />
-    <router-view />
+    <AddTodo @add-todo="addTodo" />
+    <hr />
+    <TodoList v-if="todos.length" :todos="todos" @remove-todo="removeTodo" />
+    <p v-else>No todos in the list</p>
   </div>
 </template>
 
@@ -32,14 +35,3 @@ export default {
   components: { TodoList, AddTodo }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
