@@ -3,9 +3,18 @@
     <router-link to="/">Home</router-link>
     <hr />
     <AddTodo @add-todo="addTodo" />
+    <select v-model="filter">
+      <option value="all">All</option>
+      <option value="complited">Complited</option>
+      <option value="Not complited">Not complited</option>
+    </select>
     <hr />
-    <Loader v-if="loading"/>
-    <TodoList v-else-if="todos.length" :todos="todos" @remove-todo="removeTodo" />
+    <Loader v-if="loading" />
+    <TodoList
+      v-else-if="filteredTodos.length"
+      :todos="filteredTodos"
+      @remove-todo="removeTodo"
+    />
     <p v-else>No todos in the list</p>
   </div>
 </template>
@@ -19,7 +28,8 @@ export default {
   data() {
     return {
       todos: [],
-      loading: true
+      loading: true,
+      filter: 'all'
     }
   },
   mounted() {
@@ -29,6 +39,24 @@ export default {
         this.todos = json
         this.loading = false
       })
+  },
+  // watch() {
+  //   filter(value) {
+
+  //   }
+  // },
+  computed: {
+    filteredTodos() {
+      if (this.filter === 'all') {
+        return this.todos
+      }
+      if (this.filter === 'complited') {
+        return this.todos.filter(t => t.completed)
+      }
+      if (this.filter === 'Not complited') {
+        return this.todos.filter(t => !t.completed)
+      }
+    }
   },
   methods: {
     removeTodo(id) {
