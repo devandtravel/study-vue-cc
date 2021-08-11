@@ -3,7 +3,7 @@
     <span :class="{ done: todo.completed }">
       <input type="checkbox" @change="todo.completed = !todo.completed" />
       <strong>{{ index + 1 }}</strong>
-      {{ todo.title }}
+      {{ uppercaseTitle }}
     </span>
     <button class="rm" @click="$emit('remove-todo', todo.id)">&times;</button>
   </li>
@@ -14,6 +14,11 @@ export default {
   props: {
     todo: { type: Object, required: true },
     index: Number
+  },
+  computed: {
+    uppercaseTitle() {
+      return this.todo.title.toUpperCase()
+    }
   }
 }
 </script>
